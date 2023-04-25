@@ -1,0 +1,10 @@
+-- Created by Arthur Duarte
+-- https://github.com/DimplyKhan13/VMwareLog_Hana.git
+
+CREATE VIEW "SCHEMA"."OLDEST_CHECK" ( "VM_ID" ) AS SELECT
+	 "VM_CURRENT"."VM_ID" AS "VM_ID" 
+FROM "VM_CURRENT" 
+WHERE "VM_CURRENT"."LAST_CHECK" <= ADD_SECONDS (TO_TIMESTAMP (current_timestamp),
+	 60*(-30)) 
+AND "VM_CURRENT"."IS_DELETED" = 0 
+ORDER BY "VM_CURRENT"."LAST_CHECK" LIMIT 50 WITH READ ONLY
